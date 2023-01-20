@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 )
 
-func getExecPath() (root string) {
+func GetExecPath() (root string) {
 	bin, err := os.Executable()
 	if err != nil {
 		return
