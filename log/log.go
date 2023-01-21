@@ -3,6 +3,7 @@ package log
 import (
 	"fmt"
 	"os"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -25,6 +26,18 @@ func (e *Event) Type() string {
 	return e.LogLevel.String()
 }
 
+func getTimeStr() string {
+	return time.Now().Format("2006-01-02 15:04:05")
+}
+
+func Println(format string, v ...any) {
+	if v == nil {
+		fmt.Println("[" + getTimeStr() + "] " + format)
+		return
+	}
+	fmt.Printf("["+getTimeStr()+"] "+format+"\n", v)
+}
+
 func Infoln(format string, v ...any) {
 	event := newLog(INFO, format, v...)
 	fmt.Println(event)
@@ -33,7 +46,6 @@ func Infoln(format string, v ...any) {
 func Warnln(format string, v ...any) {
 	event := newLog(WARNING, format, v...)
 	fmt.Println(event)
-
 }
 
 func Errorln(format string, v ...any) {
@@ -48,6 +60,14 @@ func Debugln(format string, v ...any) {
 
 func Fatalln(format string, v ...any) {
 	log.Fatalf(format, v...)
+}
+
+func Throwln(a string, b string, err error) {
+	log.Println("\n---------------------------")
+	log.Errorln(a+" Error, ", err)
+	log.Println(b)
+	log.Println("---------------------------\n")
+	os.Exit(1)
 }
 
 func Level() LogLevel {
@@ -72,23 +92,6 @@ func SetStrLevel(newLevel string) {
 		SetLevel(SILENT)
 	}
 	return
-}
-
-func print(data Event) {
-	if data.LogLevel < level {
-		return
-	}
-
-	switch data.LogLevel {
-	case INFO:
-		log.Infoln(data.Payload)
-	case WARNING:
-		log.Warnln(data.Payload)
-	case ERROR:
-		log.Errorln(data.Payload)
-	case DEBUG:
-		log.Debugln(data.Payload)
-	}
 }
 
 func newLog(logLevel LogLevel, format string, v ...any) Event {

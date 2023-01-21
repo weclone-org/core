@@ -3,9 +3,23 @@ package config
 import (
 	"errors"
 	C "github.com/Weclone-org/core/constant"
+	"github.com/Weclone-org/core/log"
 	"gopkg.in/yaml.v2"
 	"os"
 )
+
+var (
+	Conf Config
+)
+
+func ParseInit() {
+	Cfg, err := Parse()
+	if err != nil {
+		log.Throwln("Config", "configuration file test failed", err)
+		os.Exit(1)
+	}
+	Conf = *Cfg
+}
 
 func Parse() (*Config, error) {
 	rawCfg, err := os.ReadFile(C.ConfigFilePath)

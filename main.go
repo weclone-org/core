@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/Weclone-org/core/executor"
 	"github.com/Weclone-org/core/log"
 	"os"
 	"os/signal"
@@ -40,7 +41,6 @@ func main() {
 		utils.ShowVersion()
 		return
 	}
-
 	if homeDir != "" {
 		if !filepath.IsAbs(homeDir) {
 			currentDir, _ := os.Getwd()
@@ -50,35 +50,23 @@ func main() {
 	} else {
 		C.SetHomeDir(utils.GetExecPath())
 	}
-
 	if configFilePath != "" {
 		C.SetConfigPath(configFilePath)
 	} else {
 		C.SetConfigPath(filepath.Join(utils.GetExecPath(), "config.yaml"))
 	}
-
 	if err := config.Init(C.HomeDir); err != nil {
 		log.Fatalln("Initial configuration directory error: %s\n", err.Error())
 	}
-
 	if testConfig {
 		if _, err := config.Parse(); err != nil {
-			log.Errorln("Wrong Error, ", err)
-			fmt.Printf("configuration file %s test failed\n", C.ConfigFilePath)
+			log.Throwln("Config", "configuration file test failed", err)
 			os.Exit(1)
 		}
 		fmt.Printf("configuration file %s test is successful\n", C.ConfigFilePath)
 		return
 	}
-
-	Cfg, err := config.Parse()
-	if err != nil {
-		log.Errorln("Wrong Error, ", err)
-		fmt.Printf("configuration file %s test failed\n", C.ConfigFilePath)
-		os.Exit(1)
-	}
-	log.SetStrLevel(Cfg.Level)
-
+	go executor.Run()
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
 	<-sigCh

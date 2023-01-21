@@ -20,6 +20,7 @@ type PostgreSQL struct {
 type Redis struct {
 	Host string `yaml:"host"`
 	Port string `yaml:"port"`
+	User string `yaml:"user"`
 	Pass string `yaml:"pass"`
 }
 
@@ -80,7 +81,7 @@ func Init(dir string) error {
 
 	// initial config.yaml
 	if _, err := os.Stat(C.ConfigFilePath); os.IsNotExist(err) {
-		log.Infoln("Can't find config, create a initial config file")
+		log.Println("Can't find config, create a initial config file")
 		f, err := os.OpenFile(C.ConfigFilePath, os.O_CREATE|os.O_WRONLY, 0o644)
 		if err != nil {
 			return fmt.Errorf("can't create file %s: %s", C.ConfigFilePath, err.Error())
