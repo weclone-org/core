@@ -1,0 +1,5 @@
+package cdn
+
+func CDNInit() {
+
+}
