@@ -21,9 +21,4 @@ func RedisInit() {
 		os.Exit(1)
 	}
 	redisConn = conn
-	defer func(redisConn redis.Conn) {
-		err := redisConn.Close()
-		if err != nil {
-		}
-	}(redisConn)
 }

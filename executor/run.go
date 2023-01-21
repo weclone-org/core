@@ -17,4 +17,6 @@ func Run() {
 	log.Println("connect postgresql database successfully")
 	redis.RedisInit()
 	log.Println("connect redis server successfully")
+	log.Println("Start " + config.Conf.Mode + " mode...")
+	//if config.Conf.Mode ==
 }

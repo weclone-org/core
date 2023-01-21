@@ -1,1 +1,5 @@
 package root
+
+func RootInit() {
+
+}

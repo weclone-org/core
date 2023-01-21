@@ -63,10 +63,10 @@ func Fatalln(format string, v ...any) {
 }
 
 func Throwln(a string, b string, err error) {
-	log.Println("\n---------------------------")
-	log.Errorln(a+" Error, ", err)
-	log.Println(b)
-	log.Println("---------------------------\n")
+	fmt.Println("\n---------------------------")
+	Errorln(a+" Error, %s", err)
+	Println(b)
+	fmt.Println("---------------------------\n")
 	os.Exit(1)
 }
 
