@@ -32,10 +32,10 @@ func getTimeStr() string {
 
 func Println(format string, v ...any) {
 	if v == nil {
-		fmt.Println("[" + getTimeStr() + "] " + format)
+		fmt.Println("[" + getTimeStr() + "] [Core] " + format)
 		return
 	}
-	fmt.Printf("["+getTimeStr()+"] "+format+"\n", v)
+	fmt.Printf("["+getTimeStr()+"] [Core] "+format+"\n", v)
 }
 
 func Infoln(format string, v ...any) {
