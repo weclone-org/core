@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/Weclone-org/core/config"
 	"github.com/Weclone-org/core/restfulapi/cdn"
+	"github.com/Weclone-org/core/restfulapi/root"
 	"github.com/Weclone-org/core/restfulapi/server"
 	"github.com/gin-gonic/gin"
 	"time"
@@ -27,7 +28,7 @@ func setupRouter() *gin.Engine {
 	r.Use(gin.LoggerWithFormatter(logFormat))
 	switch config.Conf.Mode {
 	case "root":
-		cdn.CDNRouterInit(r)
+		root.RootRouterInit(r)
 	case "server":
 		server.ServerRouterInit(r)
 	case "cdn":
